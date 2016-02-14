@@ -37,7 +37,7 @@ class Graph
 
 	def display
 		@head.each do |vert|
-
+	
 			temp = vert
 			while temp!= nil
 				print "#{temp.des} "
@@ -47,15 +47,14 @@ class Graph
 		end
 	end
 
-	def bfs start
+	def bfsUtil visited, current
 		queue = Array.new
-		visited = Array.new @vertices, false
 		
-		queue.push start
-		visited[start] = true
+		queue.push current
+		visited[current] = true
 
 		while !queue.empty?
-			puts queue[0]
+			print "#{queue[0]} "
 			vert = queue.shift
 			temp = @head[vert]
 
@@ -69,10 +68,38 @@ class Graph
 		end
 
 	end
-	
 
-	def dfs current
-		puts current
+	def bfs
+		visited = Array.new @vertices, false
+		for i in 0...@vertices
+			unless visited[i]
+				bfsUtil visited, i
+			end
+		end
+	end
+	
+	def dfsUtil visited, current
+		print "#{current} "
+		visited[current] = true
+
+		temp = @head[current]
+
+		while(temp!=nil)
+			unless visited[temp.des]
+				dfsUtil(visited,temp.des)
+			end
+			temp = temp.next
+		end
+
+	end
+
+	def dfs
+		visited = Array.new @vertices, false
+		for i in 0...@vertices
+			unless visited[i]
+				dfsUtil visited, i
+			end
+		end
 
 	end
 
@@ -84,6 +111,8 @@ vert = gets.chomp.to_i
 edge = gets.chomp.to_i
 g = Graph.new vert, edge
 g.create
-#g.display
-g.bfs 2
-g.dfs 2
+g.display
+puts
+g.bfs
+puts
+g.dfs
