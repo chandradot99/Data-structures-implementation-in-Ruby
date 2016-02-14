@@ -2,41 +2,45 @@ class Queue
 	def initialize size
 		@size = size
 		@queue = Array.new size
-		@front = 0
-		@rear = 0
+		@Front = 0
+		@Rear = -1
 	end
 
-	def is_full
-		return (@rear == @size) ? true : false
+	def is_full?
+		@Rear == @size-1
 	end
 
-	def is_empty
-		return (@front == @rear) ? true : false
+	def is_empty?
+		@Front == @Rear+1
 	end
 
 	def enqueue data
-		if is_full
+		if is_full?
 			puts "Queue is overflowed"
 		else
-			@queue[@rear] = data
-			@rear += 1
+      @Rear += 1
+			@queue[@Rear] = data
 			puts "#{data} is enqueued to the Queue"
 		end
 	end
 
 	def dequeue
-		if is_empty
+		if is_empty?
 			puts "Queue is underflowed"
 		else
-			puts "#{@queue[@front]} is dequeued from the Queue"
-			@queue[@front] = nil
-			@front += 1
+			puts "#{@queue[@Front]} is dequeued from the Queue"
+			@queue[@Front] = nil
+			@Front += 1
 		end
 	end
 
 	def front 
-		return is_empty ? "Queue is underflowed" : @queue[@front]
+		is_empty? ? "Queue is underflowed" : @queue[@Front]
 	end
+
+  def rear
+    is_empty? ? "Queue is underflowed" : @queue[@Rear]
+  end
 
 end
 
@@ -44,13 +48,19 @@ q = Queue.new 5
 q.enqueue 10
 q.enqueue 20
 q.enqueue 30
+q.enqueue 40
+q.enqueue 50
 puts q.front
+puts q.rear
 q.dequeue
 puts q.front
+puts q.rear
 q.dequeue
 puts q.front
+puts q.rear
 q.dequeue
 puts q.front
+puts q.rear
 q.dequeue
 puts q.front
-q.dequeue
+puts q.rear
